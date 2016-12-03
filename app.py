@@ -3,9 +3,11 @@ import requests
 import base64
 import json
 import database
+import cf_deployment_tracker
 import os
 import datetime
 
+cf_deployment_tracker.track()
 
 VAULT_ID = "cada6e4e-39e6-4dbf-b550-3dda6f3e7e9a"
 USERNAME = '4920249b-5f3d-4983-94b1-bc4d4a91a2f5-bluemix'
@@ -28,6 +30,9 @@ class Sent_Emails:
 UPLOAD_FOLDER = '/Home/Downloads'
 ALLOWED_EXTENSIONS = set(['csv','txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app = Flask(__name__)
+
+port = int(os.getenv('VCAP_APP_PORT', 8080))
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 db = database.ConnectDB(USERNAME, PASSWD, URL, 'physician')
@@ -187,8 +192,6 @@ def connect():
 @app.route("/")
 def main():
     return render_template('app.html')
-
-if __name__ == "__main__":
-    app.secret_key = 'super secret key'
-    app.config['SESSION_TYPE'] = 'filesystem'
-    app.run(threaded = True)
+    
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=port)
