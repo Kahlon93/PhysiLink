@@ -7,8 +7,6 @@ import cf_deployment_tracker
 import os
 import datetime
 
-cf_deployment_tracker.track()
-
 VAULT_ID = "cada6e4e-39e6-4dbf-b550-3dda6f3e7e9a"
 USERNAME = '4920249b-5f3d-4983-94b1-bc4d4a91a2f5-bluemix'
 PASSWD = 'c3020144543af9ec9f68d1d35e130fada3233d3dd2c82f7c0991709b147ad0fb'
@@ -29,6 +27,9 @@ class Sent_Emails:
 
 UPLOAD_FOLDER = '/Home/Downloads'
 ALLOWED_EXTENSIONS = set(['csv','txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
+cf_deployment_tracker.track()
+
 app = Flask(__name__)
 
 port = int(os.getenv('VCAP_APP_PORT', 8080))
